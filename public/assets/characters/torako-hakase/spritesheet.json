@@ -1,0 +1,113 @@
+{
+  "character": "torako",
+  "cell": {
+    "width": 256,
+    "height": 256
+  },
+  "rowOrder": [
+    "up",
+    "down",
+    "left",
+    "right"
+  ],
+  "states": {
+    "sheet": "torako-states-idle-get-gameover-2frame-udlr-256.png",
+    "columns": [
+      "idle1",
+      "idle2",
+      "get1",
+      "get2",
+      "gameover1",
+      "gameover2"
+    ],
+    "groups": {
+      "idle": {
+        "sheet": "torako-idle-2frame-udlr-256.png",
+        "columns": [
+          "idle1",
+          "idle2"
+        ],
+        "fps": 4
+      },
+      "get": {
+        "sheet": "torako-get-2frame-udlr-256.png",
+        "columns": [
+          "get1",
+          "get2"
+        ],
+        "fps": 4
+      },
+      "gameover": {
+        "sheet": "torako-gameover-2frame-udlr-256.png",
+        "columns": [
+          "gameover1",
+          "gameover2"
+        ],
+        "fps": 4
+      }
+    },
+    "adoptedSheet": {
+      "sheet": "torako-adopted-states-idle4-getdown-gameoverdown-256.png",
+      "columns": [
+        "idle1",
+        "idle2",
+        "get1",
+        "get2",
+        "gameover1",
+        "gameover2"
+      ],
+      "rows": [
+        "up",
+        "down",
+        "left",
+        "right"
+      ],
+      "note": "get and gameover cells are intentionally populated only on the down row"
+    }
+  },
+  "walkcycle": {
+    "sheet": "torako-walkcycle-4frame-udlr-256.png",
+    "fps": 10,
+    "columns": [
+      "rightFootContact",
+      "passingHighA",
+      "leftFootContact",
+      "passingHighB"
+    ],
+    "loop": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "source": {
+    "stateMasterSize": [
+      1536,
+      1024
+    ],
+    "stateScaleReference": "idle/get standing frames only",
+    "stateMaxContent": [
+      188,
+      231
+    ],
+    "stateScale": 0.9974025974025974,
+    "walkMasterSize": [
+      1254,
+      1254
+    ],
+    "walkMaxContent": [
+      183,
+      283
+    ],
+    "walkScale": 0.8141342756183746,
+    "cellCleanup": "removed small alpha components touching cell boundaries before normalization"
+  },
+  "reviewFixes": {
+    "rightWalk": "replaced with mirrored left walkcycle frames because generated right ears were cropped",
+    "rightIdle": "replaced with mirrored left idle frames",
+    "rightGet": "replaced with mirrored left get frames",
+    "downWalk": "recentered on upper-body/head centroid across the four-frame loop",
+    "adoptedStates": "all four idle directions; get uses down only; gameover uses down only"
+  }
+}

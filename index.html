@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Picker</title>
+    <meta
+      name="description"
+      content="A small Phaser browser game about collecting stars before time runs out."
+    >
+    <link rel="icon" href="data:,">
+  </head>
+  <body data-state="ready">
+    <main class="game-shell" aria-label="Star Picker">
+      <section class="top-bar" aria-label="Game status">
+        <div class="brand">Star Picker</div>
+        <div class="hud-stat">
+          <span>Score</span>
+          <strong id="scoreValue">0</strong>
+        </div>
+        <div class="hud-stat">
+          <span>Time</span>
+          <strong id="timeValue">30</strong>
+        </div>
+      </section>
+
+      <div id="game-container" class="game-container" aria-label="Star Picker playfield"></div>
+
+      <section class="overlay" id="overlay" aria-live="polite">
+        <div class="dialog">
+          <p class="eyebrow" id="overlayEyebrow">Ready</p>
+          <h1 id="overlayTitle">Star Picker</h1>
+          <p id="overlayBody">
+            Collect as many stars as you can before the timer reaches zero.
+          </p>
+          <button id="primaryButton" type="button">Start</button>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

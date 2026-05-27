@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Torako State / Walkcycle Preview</title>
+    <style>
+      :root {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f4f6f8;
+        color: #18202a;
+      }
+
+      body {
+        margin: 0;
+        padding: 24px;
+      }
+
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin: 0 0 16px;
+        font-size: 20px;
+      }
+
+      h2 {
+        margin: 24px 0 12px;
+        font-size: 16px;
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(150px, 1fr));
+        gap: 14px;
+      }
+
+      .panel {
+        background: #fff;
+        border: 1px solid #d9e0e7;
+        border-radius: 8px;
+        padding: 10px;
+      }
+
+      .stage {
+        width: 100%;
+        aspect-ratio: 1;
+        background-color: #f8fafc;
+        background-image:
+          linear-gradient(45deg, #e4e9ef 25%, transparent 25%),
+          linear-gradient(-45deg, #e4e9ef 25%, transparent 25%),
+          linear-gradient(45deg, transparent 75%, #e4e9ef 75%),
+          linear-gradient(-45deg, transparent 75%, #e4e9ef 75%);
+        background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+        background-size: 16px 16px;
+        border: 1px solid #d9e0e7;
+      }
+
+      canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .label {
+        margin-top: 8px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Torako State / Walkcycle Preview</h1>
+      <div class="toolbar">
+        <label>Walk FPS <input id="walkFps" type="range" min="8" max="10" value="10"></label>
+        <output id="walkFpsValue">10</output>
+      </div>
+
+      <h2>Walkcycle</h2>
+      <section class="grid" id="walkGrid"></section>
+
+      <h2>Adopted States</h2>
+      <section class="grid" id="stateGrid"></section>
+    </main>
+
+    <script>
+      const directions = ["up", "down", "left", "right"];
+      const directionLabels = { up: "上", down: "下", left: "左", right: "右" };
+      const adoptedStates = [
+        { state: "idle", direction: "up" },
+        { state: "idle", direction: "down" },
+        { state: "idle", direction: "left" },
+        { state: "idle", direction: "right" },
+        { state: "get", direction: "down" },
+        { state: "gameover", direction: "down" }
+      ];
+      const walkColumns = ["rightFootContact", "passingHighA", "leftFootContact", "passingHighB"];
+      const walkGrid = document.querySelector("#walkGrid");
+      const stateGrid = document.querySelector("#stateGrid");
+      const walkFps = document.querySelector("#walkFps");
+      const walkFpsValue = document.querySelector("#walkFpsValue");
+
+      function createPanel(parent, label) {
+        const panel = document.createElement("article");
+        panel.className = "panel";
+        panel.innerHTML = `<div class="stage"><canvas width="256" height="256"></canvas></div><div class="label">${label}</div>`;
+        parent.append(panel);
+        return panel.querySelector("canvas").getContext("2d");
+      }
+
+      const walkPlayers = directions.map((direction) => {
+        const context = createPanel(walkGrid, directionLabels[direction]);
+        const images = walkColumns.map((pose, index) => {
+          const image = new Image();
+          image.src = `frames-256/walkcycle/torako-${direction}-${String(index + 1).padStart(2, "0")}-${pose}-256.png`;
+          return image;
+        });
+        return { context, images };
+      });
+
+      const statePlayers = [];
+      for (const { state, direction } of adoptedStates) {
+        const context = createPanel(stateGrid, `${state} / ${directionLabels[direction]}`);
+        const images = [1, 2].map((index) => {
+          const image = new Image();
+          image.src = `frames-256/states/${state}/torako-${direction}-${state}${index}-256.png`;
+          return image;
+        });
+        statePlayers.push({ context, images });
+      }
+
+      let walkFrame = 0;
+      let stateFrame = 0;
+      let lastWalk = 0;
+      let lastState = 0;
+
+      function paint(player, index) {
+        const image = player.images[index];
+        player.context.clearRect(0, 0, 256, 256);
+        if (image.complete) {
+          player.context.drawImage(image, 0, 0);
+        }
+      }
+
+      function tick(timestamp) {
+        const fps = Number(walkFps.value);
+        walkFpsValue.value = String(fps);
+        if (timestamp - lastWalk >= 1000 / fps) {
+          walkFrame = (walkFrame + 1) % 4;
+          lastWalk = timestamp;
+        }
+        if (timestamp - lastState >= 250) {
+          stateFrame = (stateFrame + 1) % 2;
+          lastState = timestamp;
+        }
+        for (const player of walkPlayers) paint(player, walkFrame);
+        for (const player of statePlayers) paint(player, stateFrame);
+        requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    </script>
+  </body>
+</html>
