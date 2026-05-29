@@ -2,11 +2,18 @@
 
 A small beginner-friendly browser game prototype built with Vite, TypeScript, and Phaser.
 
+
 Published site:
 
 ```text
 https://aicuai.github.io/codex-game-lab/
 ```
+
+生成AI時代に「ゲームを作ってみたい」と思ったとき、いきなりUnityやUnreal Engineを開いて挫折する必要はありません。まずは、OpenAIのコーディング支援AI「Codex」を使ってブラウザで動く小さなゲームを作ってみましょう。キー入力で動き、ルールを作り、スコアが増え、失敗して、もう一度遊べるところまで持っていく。この「ゲームとして最初に遊べる1本」をAIとともに作る体験は、入門者だけでなく、プロフェッショナルにとってもAI駆動開発の総合的な学習になり、Claude Codeだけでなく、Codexの実力やCodexの公式Game Studioプラグインを理解する良い機会にもなります。
+
+こちらで遊べます "StarPicker" https://aicuai.github.io/codex-game-lab/
+
+https://www.youtube.com/watch?v=py0QbOsJtfM
 
 ## Setup
 
