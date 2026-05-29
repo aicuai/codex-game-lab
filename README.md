@@ -15,6 +15,9 @@ https://note.com/aicu/n/n0af2c2714099?hl=en-US
 YouTube
 https://www.youtube.com/watch?v=py0QbOsJtfM
 
+AICUマガジン Vol.25 にて紹介予定です
+https://j.aicu.ai/MagV25
+
 ## Setup
 
 ```sh
